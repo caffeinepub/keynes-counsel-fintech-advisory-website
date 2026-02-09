@@ -1,0 +1,17 @@
+{
+  "frontend/src/index.css": "Custom OKLCH color system with navy, charcoal, and muted blue-green fintech palette for both light and dark modes, with semantic design tokens.",
+  "frontend/src/App.tsx": "Main application component that orchestrates all page sections with theme provider and toast notifications.",
+  "frontend/src/components/Header.tsx": "Sticky navigation header with mobile menu, smooth scrolling to sections, and responsive design.",
+  "frontend/src/components/Hero.tsx": "Hero section with background image, semi-transparent dark overlay (rgba(0,0,0,0.45)) for improved text contrast, white text styling, and dual CTAs for registration and learning more.",
+  "frontend/src/components/ProblemStatement.tsx": "Grid of four problem cards highlighting common financial challenges users face with icons and descriptions.",
+  "frontend/src/components/OurSolution.tsx": "Features grid showcasing AI guidance, expert advisors, and action plans, plus benefits list emphasizing no commissions or lock-ins.",
+  "frontend/src/components/HowItWorks.tsx": "Four-step process timeline showing registration, AI chat, expert calls, and action plan delivery with numbered cards.",
+  "frontend/src/components/TrustSection.tsx": "Four trust factor cards with icons highlighting transparency, fair pricing, data privacy, and conflict-free advice.",
+  "frontend/src/components/Pricing.tsx": "Pricing card displaying ₹199 registration fee with feature list and CTA, fetching pricing details from backend.",
+  "frontend/src/components/Team.tsx": "Team member grid displaying profiles from backend or mission statement fallback with team photo.",
+  "frontend/src/components/FAQ.tsx": "Accordion-based FAQ section fetching questions from backend with default fallback questions about pricing and trust.",
+  "frontend/src/components/FinalCTA.tsx": "Registration form with name, email, and phone inputs that submits to backend with loading states and success/error toasts.",
+  "frontend/src/components/Footer.tsx": "Footer with brand info, quick navigation links, coming soon section, and caffeine.ai attribution with heart icon.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for fetching FAQ entries, team members, pricing details, and mutations for user registration and contact messages with correct parameter types matching the backend interface.",
+  "frontend/index.html": "Production-ready HTML entry point with comprehensive SEO meta tags, Open Graph tags, Twitter cards, structured data (JSON-LD) for search engines, and performance optimizations including preconnect and DNS prefetch directives."
+}
