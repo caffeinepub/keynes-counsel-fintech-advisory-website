@@ -1,36 +1,63 @@
-import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { ProblemStatement } from './components/ProblemStatement';
-import { OurSolution } from './components/OurSolution';
-import { HowItWorks } from './components/HowItWorks';
-import { TrustSection } from './components/TrustSection';
-import { Pricing } from './components/Pricing';
-import { Team } from './components/Team';
-import { FAQ } from './components/FAQ';
-import { FinalCTA } from './components/FinalCTA';
-import { Footer } from './components/Footer';
-import { Toaster } from '@/components/ui/sonner';
-import { ThemeProvider } from 'next-themes';
+import { Toaster } from "@/components/ui/sonner";
+import {
+  RouterProvider,
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+} from "@tanstack/react-router";
+import { ThemeProvider } from "next-themes";
+import { AdvisorSelectionPage } from "./pages/AdvisorSelectionPage";
+import { HomePage } from "./pages/HomePage";
+import { PaymentPage } from "./pages/PaymentPage";
+
+const hashHistory = createHashHistory();
+
+const rootRoute = createRootRoute();
+
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: HomePage,
+});
+
+const advisorsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/advisors",
+  component: AdvisorSelectionPage,
+});
+
+const paymentRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/payment",
+  component: PaymentPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    advisorId: (search.advisorId as string) ?? "",
+  }),
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  advisorsRoute,
+  paymentRoute,
+]);
+
+const router = createRouter({
+  routeTree,
+  history: hashHistory,
+});
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">
-          <Hero />
-          <ProblemStatement />
-          <OurSolution />
-          <HowItWorks />
-          <TrustSection />
-          <Pricing />
-          <Team />
-          <FAQ />
-          <FinalCTA />
-        </main>
-        <Footer />
-        <Toaster />
-      </div>
+      <RouterProvider router={router} />
+      <Toaster />
     </ThemeProvider>
   );
 }

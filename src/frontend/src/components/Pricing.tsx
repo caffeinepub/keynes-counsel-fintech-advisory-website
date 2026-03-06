@@ -1,25 +1,25 @@
-import { Button } from '@/components/ui/button';
-import { Check } from 'lucide-react';
-import { usePricingDetails } from '@/hooks/useQueries';
+import { Button } from "@/components/ui/button";
+import { usePricingDetails } from "@/hooks/useQueries";
+import { Check } from "lucide-react";
 
 const features = [
-  'One-time registration fee',
-  'AI-powered financial guidance',
-  'Access to certified advisors',
-  'Pay-per-call pricing',
-  'No subscriptions or lock-ins',
-  'Personalized action plans',
-  'Secure data encryption',
-  'Email support',
+  "One-time registration fee",
+  "AI-powered financial guidance",
+  "Access to certified advisors",
+  "Pay-per-call pricing",
+  "No subscriptions or lock-ins",
+  "Personalized action plans",
+  "Secure data encryption",
+  "Email support",
 ];
 
 export function Pricing() {
   const { data: pricingDetails, isLoading } = usePricingDetails();
 
   const scrollToGetStarted = () => {
-    const element = document.getElementById('get-started');
+    const element = document.getElementById("get-started");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -53,8 +53,8 @@ export function Pricing() {
             </div>
 
             <ul className="space-y-3 mb-8">
-              {features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
+              {features.map((feature) => (
+                <li key={feature} className="flex items-start gap-3">
                   <Check className="h-5 w-5 text-accent shrink-0 mt-0.5" />
                   <span className="text-muted-foreground">{feature}</span>
                 </li>
@@ -71,7 +71,8 @@ export function Pricing() {
             </Button>
 
             <p className="text-xs text-center text-muted-foreground mt-4">
-              Additional advisor calls are charged separately on a pay-per-use basis
+              Additional advisor calls are charged separately on a pay-per-use
+              basis
             </p>
           </div>
         </div>

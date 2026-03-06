@@ -3,34 +3,40 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { useFaqEntries } from '@/hooks/useQueries';
-import { Skeleton } from '@/components/ui/skeleton';
+} from "@/components/ui/accordion";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useFaqEntries } from "@/hooks/useQueries";
 
 const defaultFaqs = [
   {
-    question: 'What is the ₹199 registration fee for?',
-    answer: 'The one-time registration fee covers your account setup, access to our AI-powered guidance system, and the platform infrastructure. There are no recurring charges or subscriptions.',
+    question: "What is the ₹199 registration fee for?",
+    answer:
+      "The one-time registration fee covers your account setup, access to our AI-powered guidance system, and the platform infrastructure. There are no recurring charges or subscriptions.",
   },
   {
-    question: 'How much do advisor calls cost?',
-    answer: 'Advisor calls are charged on a pay-per-use basis. You only pay when you book a call, and pricing is transparent and communicated upfront. There are no hidden fees or minimum commitments.',
+    question: "How much do advisor calls cost?",
+    answer:
+      "Advisor calls are charged on a pay-per-use basis. You only pay when you book a call, and pricing is transparent and communicated upfront. There are no hidden fees or minimum commitments.",
   },
   {
-    question: 'Do your advisors earn commissions on products?',
-    answer: 'No. Our advisors are compensated by us, not by product providers. This means they have no financial incentive to recommend specific products—their only goal is to provide you with honest, conflict-free advice.',
+    question: "Do your advisors earn commissions on products?",
+    answer:
+      "No. Our advisors are compensated by us, not by product providers. This means they have no financial incentive to recommend specific products—their only goal is to provide you with honest, conflict-free advice.",
   },
   {
-    question: 'Is my financial data secure?',
-    answer: 'Yes. We use bank-grade encryption to protect your data, and we never share your information with third parties. Your privacy and security are our top priorities.',
+    question: "Is my financial data secure?",
+    answer:
+      "Yes. We use bank-grade encryption to protect your data, and we never share your information with third parties. Your privacy and security are our top priorities.",
   },
   {
-    question: 'Can I cancel anytime?',
-    answer: 'There\'s nothing to cancel! We don\'t have subscriptions or lock-in periods. You simply pay for the services you use, when you use them.',
+    question: "Can I cancel anytime?",
+    answer:
+      "There's nothing to cancel! We don't have subscriptions or lock-in periods. You simply pay for the services you use, when you use them.",
   },
   {
-    question: 'What kind of financial advice do you provide?',
-    answer: 'We provide guidance on investment planning, portfolio allocation, retirement planning, tax optimization, and general financial decision-making. Our advice is educational and strategic—we don\'t sell or manage products.',
+    question: "What kind of financial advice do you provide?",
+    answer:
+      "We provide guidance on investment planning, portfolio allocation, retirement planning, tax optimization, and general financial decision-making. Our advice is educational and strategic—we don't sell or manage products.",
   },
 ];
 
@@ -65,7 +71,7 @@ export function FAQ() {
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
                 <AccordionItem
-                  key={index}
+                  key={faq.question}
                   value={`item-${index}`}
                   className="bg-card border rounded-lg px-6"
                 >

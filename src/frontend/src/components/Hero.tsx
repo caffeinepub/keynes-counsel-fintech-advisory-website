@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -28,16 +28,17 @@ export function Hero() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance text-white">
             Financial Guidance Without the Sales Pitch
           </h1>
-          
+
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto text-balance">
-            Get expert investment advice tailored to your goals. No commissions, no product pushing—just honest guidance when you need it.
+            Get expert investment advice tailored to your goals. No commissions,
+            no product pushing—just honest guidance when you need it.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <Button
               size="lg"
               className="text-base px-8"
-              onClick={() => scrollToSection('get-started')}
+              onClick={() => scrollToSection("get-started")}
             >
               Get Started for ₹199
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -46,7 +47,7 @@ export function Hero() {
               size="lg"
               variant="outline"
               className="text-base px-8 bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
-              onClick={() => scrollToSection('how-it-works')}
+              onClick={() => scrollToSection("how-it-works")}
             >
               How It Works
             </Button>

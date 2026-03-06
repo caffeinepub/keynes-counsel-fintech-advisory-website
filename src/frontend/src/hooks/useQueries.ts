@@ -1,12 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useActor } from './useActor';
-import type { FaqEntry, TeamMember, PricingDetail } from '../backend';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { FaqEntry, PricingDetail, TeamMember } from "../backend";
+import { useActor } from "./useActor";
 
 export function useFaqEntries() {
   const { actor, isFetching } = useActor();
 
   return useQuery<FaqEntry[]>({
-    queryKey: ['faqEntries'],
+    queryKey: ["faqEntries"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllActiveFaqEntries();
@@ -19,7 +19,7 @@ export function useTeamMembers() {
   const { actor, isFetching } = useActor();
 
   return useQuery<TeamMember[]>({
-    queryKey: ['teamMembers'],
+    queryKey: ["teamMembers"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getTeamMembers();
@@ -32,7 +32,7 @@ export function usePricingDetails() {
   const { actor, isFetching } = useActor();
 
   return useQuery<PricingDetail | null>({
-    queryKey: ['pricingDetails'],
+    queryKey: ["pricingDetails"],
     queryFn: async () => {
       if (!actor) return null;
       return actor.getPricingDetails();
@@ -57,11 +57,11 @@ export function useRegisterUser() {
       phone: string;
       hasConsented?: boolean;
     }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.registerUser(name, email, phone, hasConsented);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userRegistrations'] });
+      queryClient.invalidateQueries({ queryKey: ["userRegistrations"] });
     },
   });
 }
@@ -80,11 +80,11 @@ export function useSubmitContactMessage() {
       email: string;
       message: string;
     }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.submitContactMessage(name, email, message);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['contactMessages'] });
+      queryClient.invalidateQueries({ queryKey: ["contactMessages"] });
     },
   });
 }
