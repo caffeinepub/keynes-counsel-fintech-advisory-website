@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ADVISORS } from "@/data/advisors";
 import { useNavigate } from "@tanstack/react-router";
-import { Clock, PhoneCall, ShieldCheck, Star } from "lucide-react";
+import { Bot, Check, Clock, PhoneCall, ShieldCheck, Star } from "lucide-react";
 import { motion } from "motion/react";
 
 export function AdvisorSelectionPage() {
@@ -74,9 +74,112 @@ export function AdvisorSelectionPage() {
           </div>
         </section>
 
-        {/* Advisor Grid */}
-        <section className="py-12 md:py-16">
+        {/* AI Chatbot Plan */}
+        <section className="py-10 md:py-12">
           <div className="container">
+            <motion.div
+              data-ocid="advisors.ai_plan.card"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Card className="relative overflow-hidden border-2 border-accent/40 shadow-md bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5">
+                {/* Top accent strip */}
+                <div className="h-1.5 w-full bg-gradient-to-r from-accent via-primary to-accent" />
+
+                <CardContent className="pt-6 pb-6">
+                  <div className="flex flex-col md:flex-row md:items-center gap-6">
+                    {/* Left: Icon + Title */}
+                    <div className="flex items-start gap-4 flex-1">
+                      <div className="h-14 w-14 shrink-0 rounded-2xl bg-primary/10 flex items-center justify-center">
+                        <Bot className="h-8 w-8 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <h2 className="text-xl font-bold text-foreground">
+                            AI Financial Chatbot
+                          </h2>
+                          <Badge className="bg-accent/20 text-accent-foreground border border-accent/30 text-xs font-semibold">
+                            Best for Beginners
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground leading-relaxed max-w-xl">
+                          Get instant answers to your financial questions
+                          anytime. Chat with our AI advisor for personalised
+                          guidance — no waiting, no scheduling.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Middle: Feature bullets */}
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-x-6 md:gap-y-2 shrink-0">
+                      {[
+                        "Instant 24/7 AI guidance",
+                        "Personalised financial Q&A",
+                        "Beginner-friendly explanations",
+                        "No advisor scheduling needed",
+                      ].map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-center gap-2 text-sm text-foreground"
+                        >
+                          <span className="h-4 w-4 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                            <Check className="h-2.5 w-2.5 text-primary" />
+                          </span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Right: Price + CTA */}
+                    <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-0.5 md:text-right">
+                          One-time access
+                        </p>
+                        <p className="text-3xl font-bold text-primary">₹200</p>
+                        <p className="text-xs text-muted-foreground mt-0.5 md:text-right">
+                          No lock-in · Chat anytime
+                        </p>
+                      </div>
+                      <Button
+                        onClick={() =>
+                          navigate({
+                            to: "/payment",
+                            search: { advisorId: "ai-only" },
+                          })
+                        }
+                        data-ocid="advisors.ai_plan.button"
+                        size="lg"
+                        className="gap-2 w-full md:w-auto mt-1"
+                      >
+                        <Bot className="h-4 w-4" />
+                        Get AI Access
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Advisor Grid */}
+        <section className="py-6 md:py-10">
+          <div className="container">
+            <motion.div
+              className="mb-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <h2 className="text-lg font-semibold text-foreground">
+                Or book a 1-on-1 expert call
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                All advisor plans include AI Chatbot access.
+              </p>
+            </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {ADVISORS.map((advisor, index) => (
                 <motion.div
@@ -129,18 +232,24 @@ export function AdvisorSelectionPage() {
                       </div>
 
                       {/* Bio */}
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-3">
                         {advisor.bio}
                       </p>
+
+                      {/* AI Chatbot included badge */}
+                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/40 rounded-md px-2.5 py-1.5 w-fit">
+                        <Bot className="h-3.5 w-3.5 text-primary/70 shrink-0" />
+                        <span>Includes AI Chatbot access</span>
+                      </div>
                     </CardContent>
 
                     <CardFooter className="flex items-center justify-between pt-0 pb-5 px-6 border-t mt-auto">
                       <div>
                         <p className="text-xs text-muted-foreground mb-0.5">
-                          Per call
+                          ₹999 call + ₹200 registration
                         </p>
                         <p className="text-xl font-bold text-primary">
-                          {advisor.callFee}
+                          ₹1,199 total
                         </p>
                       </div>
                       <Button

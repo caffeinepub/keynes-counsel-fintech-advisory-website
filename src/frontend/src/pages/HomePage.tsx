@@ -1,3 +1,4 @@
+import { ChatbotSection } from "@/components/ChatbotSection";
 import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -23,6 +24,7 @@ export function HomePage() {
         <Pricing />
         <Team />
         <FAQ />
+        <ChatbotSection />
         <FinalCTA />
       </main>
       <Footer />

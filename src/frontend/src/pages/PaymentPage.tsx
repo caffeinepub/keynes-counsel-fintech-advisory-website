@@ -10,6 +10,7 @@ import { useUserStore } from "@/store/userStore";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ArrowLeft,
+  Bot,
   Calendar,
   CheckCircle2,
   CreditCard,
@@ -21,7 +22,8 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
-const REGISTRATION_FEE = 199;
+const REGISTRATION_FEE = 200;
+const AI_ONLY_FEE = 200;
 
 function formatCardNumber(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 16);
@@ -42,8 +44,13 @@ export function PaymentPage() {
   const { email: userEmail } = useUserStore();
 
   const advisorId = (search as Record<string, string>).advisorId ?? "";
-  const advisor = ADVISORS.find((a) => a.id === advisorId) ?? ADVISORS[0];
-  const total = REGISTRATION_FEE + advisor.callFeeAmount;
+  const isAiOnly = advisorId === "ai-only";
+  const advisor = isAiOnly
+    ? null
+    : (ADVISORS.find((a) => a.id === advisorId) ?? ADVISORS[0]);
+  const total = isAiOnly
+    ? AI_ONLY_FEE
+    : REGISTRATION_FEE + (advisor?.callFeeAmount ?? 0);
 
   const [cardHolder, setCardHolder] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -107,49 +114,78 @@ export function PaymentPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {/* Advisor Info */}
-                      <div className="flex items-center gap-3 p-3 bg-muted/40 rounded-lg">
-                        <div
-                          className={`h-11 w-11 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${advisor.accentColor}`}
-                        >
-                          {advisor.initials}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-sm text-foreground">
-                            {advisor.name}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {advisor.specialization}
-                          </p>
-                          <div className="flex items-center gap-1 mt-0.5">
-                            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                            <span className="text-xs font-medium text-foreground">
-                              {advisor.rating}
-                            </span>
+                      {/* Plan Info */}
+                      {isAiOnly ? (
+                        <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg border border-primary/10">
+                          <div className="h-11 w-11 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <Bot className="h-6 w-6 text-primary" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-sm text-foreground">
+                              AI Financial Chatbot
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              24/7 AI-powered financial guidance
+                            </p>
                           </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="flex items-center gap-3 p-3 bg-muted/40 rounded-lg">
+                          <div
+                            className={`h-11 w-11 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${advisor!.accentColor}`}
+                          >
+                            {advisor!.initials}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-sm text-foreground">
+                              {advisor!.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {advisor!.specialization}
+                            </p>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                              <span className="text-xs font-medium text-foreground">
+                                {advisor!.rating}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <Separator />
 
                       {/* Line Items */}
                       <div className="space-y-2.5 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">
-                            Registration fee
-                          </span>
-                          <span className="font-medium text-foreground">
-                            ₹{REGISTRATION_FEE}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">
-                            Advisory call fee
-                          </span>
-                          <span className="font-medium text-foreground">
-                            {advisor.callFee}
-                          </span>
-                        </div>
+                        {isAiOnly ? (
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                              Registration fee
+                            </span>
+                            <span className="font-medium text-foreground">
+                              ₹{AI_ONLY_FEE}
+                            </span>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">
+                                Registration fee
+                              </span>
+                              <span className="font-medium text-foreground">
+                                ₹{REGISTRATION_FEE}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">
+                                Advisory call fee
+                              </span>
+                              <span className="font-medium text-foreground">
+                                {advisor!.callFee}
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
 
                       <Separator />
@@ -160,10 +196,21 @@ export function PaymentPage() {
                       </div>
 
                       <div className="bg-primary/5 rounded-lg p-3 text-xs text-muted-foreground text-center space-y-1">
-                        <p className="font-medium text-foreground">
-                          One-time registration
-                        </p>
-                        <p>Pay per call • No lock-in • Cancel anytime</p>
+                        {isAiOnly ? (
+                          <>
+                            <p className="font-medium text-foreground">
+                              One-time access
+                            </p>
+                            <p>Chat anytime · No lock-in</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="font-medium text-foreground">
+                              One-time registration
+                            </p>
+                            <p>Pay per call • No lock-in • Cancel anytime</p>
+                          </>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -323,45 +370,70 @@ export function PaymentPage() {
                       }}
                       className="flex justify-center"
                     >
-                      <div className="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center">
-                        <CheckCircle2 className="h-10 w-10 text-emerald-500" />
-                      </div>
+                      {isAiOnly ? (
+                        <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center">
+                          <Bot className="h-10 w-10 text-primary" />
+                        </div>
+                      ) : (
+                        <div className="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center">
+                          <CheckCircle2 className="h-10 w-10 text-emerald-500" />
+                        </div>
+                      )}
                     </motion.div>
 
                     <div>
                       <h2 className="text-2xl font-bold text-foreground mb-1">
-                        Booking Confirmed!
+                        {isAiOnly ? "Access Granted!" : "Booking Confirmed!"}
                       </h2>
                       <p className="text-sm text-muted-foreground">
-                        Booking ID:{" "}
+                        {isAiOnly ? "Reference ID" : "Booking ID"}:{" "}
                         <span className="font-mono font-semibold text-foreground">
                           {bookingId}
                         </span>
                       </p>
                     </div>
 
-                    <div className="bg-muted/30 rounded-xl p-4 text-sm space-y-2.5 text-left">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`h-10 w-10 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${advisor.accentColor}`}
-                        >
-                          {advisor.initials}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-foreground">
-                            {advisor.name}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {advisor.specialization}
-                          </p>
+                    {isAiOnly ? (
+                      <div className="bg-primary/5 rounded-xl p-4 text-sm space-y-2.5 text-left border border-primary/10">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <Bot className="h-5 w-5 text-primary" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-foreground">
+                              AI Financial Chatbot
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              24/7 AI-powered guidance
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="bg-muted/30 rounded-xl p-4 text-sm space-y-2.5 text-left">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`h-10 w-10 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${advisor!.accentColor}`}
+                          >
+                            {advisor!.initials}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-foreground">
+                              {advisor!.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {advisor!.specialization}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     <div className="space-y-1.5 text-sm text-muted-foreground">
                       <p className="text-foreground font-medium">
-                        Your advisor {advisor.name.split(" ")[0]} will call you
-                        within 24 hours.
+                        {isAiOnly
+                          ? "Your AI financial chatbot is now active. Start chatting anytime."
+                          : `Your advisor ${advisor!.name.split(" ")[0]} will call you within 24 hours.`}
                       </p>
                       {userEmail && (
                         <p>
@@ -375,8 +447,9 @@ export function PaymentPage() {
 
                     <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground bg-muted/20 rounded-lg p-3">
                       <ShieldCheck className="h-3.5 w-3.5 text-accent" />
-                      Your call is strictly guidance-only. No products will be
-                      sold.
+                      {isAiOnly
+                        ? "Guidance-only AI. No products will be sold."
+                        : "Your call is strictly guidance-only. No products will be sold."}
                     </div>
 
                     <Button

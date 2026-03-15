@@ -81,6 +81,14 @@ export function Header() {
           >
             FAQ
           </button>
+          <button
+            type="button"
+            onClick={() => handleNavAction("chatbot")}
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            data-ocid="nav.chatbot.link"
+          >
+            Ask AI
+          </button>
           <Button
             onClick={() => handleNavAction("get-started")}
             size="sm"
@@ -140,6 +148,14 @@ export function Header() {
               data-ocid="nav.mobile.faq.link"
             >
               FAQ
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavAction("chatbot")}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors text-left"
+              data-ocid="nav.mobile.chatbot.link"
+            >
+              Ask AI
             </button>
             <Button
               onClick={() => handleNavAction("get-started")}

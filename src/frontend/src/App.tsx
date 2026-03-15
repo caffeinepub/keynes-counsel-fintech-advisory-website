@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import {
+  Outlet,
   RouterProvider,
   createHashHistory,
   createRootRoute,
@@ -13,7 +14,9 @@ import { PaymentPage } from "./pages/PaymentPage";
 
 const hashHistory = createHashHistory();
 
-const rootRoute = createRootRoute();
+const rootRoute = createRootRoute({
+  component: () => <Outlet />,
+});
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
